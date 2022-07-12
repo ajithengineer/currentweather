@@ -1,0 +1,87 @@
+<html>
+	<head>
+		<title>WEATHER</title>
+		<link rel="stylesheet" href="{{url_for('static',filename='style.css')}}"></link>
+		<script src="{{url_for('static',filename='jquery-3.6.0.min.js')}}"></script>
+		<script src="https://kit.fontawesome.com/541297668d.js" crossorigin="anonymous"></script>
+		<style>
+			body{
+			background-repeat:repeat;
+			background-size:cover;
+			background-image:url({{url_for('static',filename='source/image/4.jpg')}})
+			}
+			form{
+	        margin-left:220px;
+            }
+			h1{
+			position:absolute;
+			top:110px;
+			left:530px;
+			background:linear-gradient(90deg,#ff0000,#ffff00,#ff00f3,#0033ff,#ff00c4,#ff0000);
+			letter-spacing:2px;
+			font-weight:500;
+			-webkit-text-fill-color:transparent;
+			-webkit-background-clip: text;
+			animation:animate 10s linear infinite;
+		    }
+		</style>
+	</head>
+	<body>
+		<h1><i class="fa fa-sun">WEATHER</i></h1>
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				{% for message in messages %}
+					<h3><font color="red">{{ message }}</font></h3>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+		<br />
+		<div align="right">
+		<p><a href="{{url_for('search')}}"><i class="fa fa-search" style="margin-top:90px">Search</i></a></p>
+		</div>
+		<br />
+			{% for data in datas %}
+			<center><h2><u><font color="black">Current Weather in <p><font color="blue">{{data.City}}</font></p></font></u></h2></center>
+			<br />
+			<form>
+				<font color="Light Blue">
+				<h3>Date|Time: <font color="white" style="margin-left:70px">{{data.Date}} </font></h3>
+				</font>
+				<br />	
+				<font color="Light Blue">
+				<h3>Temperature: <font color="white" style="margin-left:50px">{{data.Temp}} °C</font></h3>
+				</font>
+				<br />	
+				<font color="light blue">
+				<h3>Min.Temperature: <font color="white" style="margin-left:12px">{{data.Temp_min}} °C</font></h3>
+				</font>
+				<br />	
+				<font color="Light Blue">
+				<h3>Max.Temperature: <font color="white" style="margin-left:10px">{{data.Temp_max}} °C</font></h3>
+				</font>
+				<br />	
+				<font color="light blue">
+				<h3>Wind Speed: <font color="white" style="margin-left:58px">{{data.Wind_spd}} km/h</font></h3>
+				</font>
+				<br />	
+				<font color="Light Blue">
+				<h3>Humidity: <font color="white" style="margin-left:78px">{{data.Humidity}} %</font></h3>
+				</font>
+				<br />	
+				<font color="light blue">
+				<h3>Description: <font color="white" style="margin-left:63px">{{data.Description}}</font></h3>
+				</font>
+				<br />	
+				<div align="right">
+		        <a  href="{{url_for('delete')}}">Delete</a>
+				</div>
+				<br />
+			</form>
+			<hr> <!--Horizontal Rule-->
+			<br />
+			{% endfor %}
+			<p style="margin-left:400px">
+		    <a href="https://www.google.com/search?q=current+weather&rlz=1C1SQJL_enIN1006IN1006&oq=&aqs=chrome.1.35i39i362l8.391735j0j7&sourceid=chrome&ie=UTF-8">For more Details Click Here!</a>
+			</p>
+	</body>
+</html>

@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+		<style>
+			body{
+			background-repeat:no-repeat;
+			background-size:cover;
+			background-image:url({{url_for('static',filename='source/image/addpost.jpg')}})
+			}
+			h1{
+			position:absolute;
+			top:50px;
+			left:500px;
+			background:linear-gradient(90deg,#ff0000,#ffff00,#ff00f3,#0033ff,#ff00c4,#ff0000);
+			letter-spacing:2px;
+			font-weight:500;
+			-webkit-text-fill-color:transparent;
+			-webkit-background-clip: text;
+			animation:animate 10s linear infinite;
+		    }
+		</style>
+	</head>
+	
+	<body>
+		<h1>Delete Weather Data</h1>
+		<form style="margin-top:200px" action='' method='POST'>
+			<center>
+				<p>Enter The City Name To Delete Current Weather Forecast!</p>
+				<label>City Name</label>
+				<input type="text" name="title" required>
+				<input type='submit' value='Remove' >
+			</center>
+		</form>
+	</body>
+</html>

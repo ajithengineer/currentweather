@@ -1,0 +1,54 @@
+import pymongo
+from pymongo import MongoClient
+from flask import Flask,render_template,request,url_for,redirect,flash
+import pandas as pd
+import json
+
+app=Flask(__name__)
+app.secret_key="myweathersystem@12"
+
+client = pymongo.MongoClient("mongodb://localhost:27017")
+
+mydb = client["WEATHER"]
+
+mycol = mydb["weather"]
+
+@app.route("/")
+def home():
+    all_post = list(mycol.find())
+    return render_template("home.html",datas=all_post)
+    
+@app.route("/search",methods=['GET','POST'])
+def search():
+    if request.method=='POST':
+        Title = request.form['city']
+        mycol.delete_one({"City":Title})
+        
+        city=request.form['city']
+        url= 'https://api.openweathermap.org/data/2.5/weather?lat=37.39&lon=-122.08&appid=a9b6c45fc92b19f0d95ec6697d56df56'.format(city)
+
+        res= requests.get(url)
+
+        data= res.json()
+
+        temp=((data['main']['temp'])-273.15)
+        temp_min=((data['main']['temp_min'])-273.15)
+        temp_max=((data['main']['temp_max'])-273.15)
+        wind_spd=data['wind']['speed']
+        humidity=data['main']['humidity']
+        description=data['weather'][0]['description']
+        date_time=datetime.now().strftime('%d %b %Y | %I:%M:%S %p')
+
+        
+        City=request.form['city']
+        Date=request.form['date_time']
+        Temperature=request.form['temp']
+        Temp_min=request.form['temp_min']
+        Temp_max=request.form['temp_max']
+        Wind_spd=request.form['wind_spd']
+        Humidity=request.form['humidity']
+        Description=request.form['description']
+        mycol.insert_one({"City":City,"Date":Date,"Temp":Temperature,"Temp_min":Temp_min,"Temp_max":Temp_max,"Wind_spd":Wind_spd,"Humidity":Humidity,"Description":Description})
+        flash('Weather Fetched Successfully!') 
+        return redirect(url_for('home'))
+    return render_template("add.html")
